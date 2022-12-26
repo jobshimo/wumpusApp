@@ -1,0 +1,63 @@
+.board-square {
+    width: 100px;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-size: 100px 100px;
+}
+
+.wall {
+    background: url(../../../../../assets/img/wall.png);
+    filter: hue-rotate(127deg);
+}
+
+.floor {
+    background: url(../../../../../assets/img/floor.png);
+}
+
+.floorGold {
+    background: url(../../../../../assets/img/floor_gold.png);
+}
+
+.not-player-image {
+    position: fixed;
+    z-index: 0;
+    margin-top: -25px;
+    margin-left: -25px;
+}
+
+.player-image {
+    position: fixed;
+    z-index: 1;
+    filter: hue-rotate(291deg);
+    margin-top: -25px;
+    margin-left: -25px;
+}
+
+.delay-animation {
+    -webkit-animation-duration: .30s;
+    animation-duration: .30s
+}
+
+.breeze {
+    color: white;
+    position: fixed;
+    z-index: 2;
+    margin-top: -25px;
+    margin-left: -15px;
+}
+
+.stench {
+    color: white;
+    position: fixed;
+    z-index: 2;
+    margin-top: -15px;
+    margin-left: -15px;
+}
+
+.dead {
+    width: 40px;
+}
+
+.start-cell {
+    border: 3px dotted;
+}

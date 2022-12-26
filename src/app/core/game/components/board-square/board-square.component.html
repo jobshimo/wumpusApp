@@ -1,0 +1,36 @@
+<!-- <div class="board-square flex-c-j-c " [class.wall]="false" [class.floor]="true" [class.floorGold]="squareItems?.gold && !squareItems?.wall"> -->
+<div class="board-square flex-c-j-c" [class.start-cell]="lineIndex === 0 && cellIndex === 0" [class.wall]="squareItems?.wall && !endGame" [class.floor]="endGame || !squareItems?.wall" [class.floorGold]="squareItems?.gold && !squareItems?.wall && !endGame">
+    <div>
+        <p *ngIf="
+        (!squareItems?.wall && squareItems?.breeze && !squareItems?.pit) ||
+        (endGame && squareItems?.breeze && !squareItems?.pit)
+      " class="breeze">
+            breeze
+        </p>
+        <p *ngIf="
+        (!squareItems?.wall && squareItems?.stench) ||
+        (endGame && squareItems?.stench)
+      " class="stench">
+            stench
+        </p>
+        <img *ngIf="player" [class]="
+        'player-image animate__animated delay-animation ' + selecMotionEfect
+      " [src]="selectPlayerImage" alt="" />
+        <img *ngIf="
+        (endGame && squareItems?.gold) ||
+        (!squareItems?.wall && squareItems?.gold)
+      " class="not-player-image" src="../../../../../assets/img/gold.png" alt="" />
+        <img *ngIf="
+        (endGame && squareItems?.wumpus) ||
+        (!squareItems?.wall && squareItems?.wumpus)
+      " class="not-player-image" src="../../../../../assets/img/wumpus.png" alt="" />
+        <img *ngIf="
+        (endGame && squareItems?.pit) ||
+        (!squareItems?.wall && squareItems?.pit)
+      " class="not-player-image" src="../../../../../assets/img/hole.png" alt="" />
+        <img *ngIf="
+        (endGame && squareItems?.stiff) ||
+        (!squareItems?.wall && squareItems?.stiff)
+      " class="not-player-image dead" src="../../../../../assets/img/dead.png" alt="" />
+    </div>
+</div>

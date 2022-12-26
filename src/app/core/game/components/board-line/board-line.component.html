@@ -1,0 +1,4 @@
+<div style="display: flex; flex-direction: row">
+    <app-board-square *ngFor="let square of squares; let i = index" [square-items]="square" [position]="position" [lookingTo]="lookingTo" [lineIndex]="lineIndex" [cellIndex]="i"></app-board-square>
+
+</div>

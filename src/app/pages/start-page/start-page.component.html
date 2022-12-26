@@ -1,0 +1,41 @@
+<div class="w-100 h-100 flex-c-j-c min-size">
+    <div class="w-75 h-75" style="background-color: aqua">
+
+        <h2 class="text-center pt-3">Game Configuration</h2>
+
+        <div class="container text-center mt-5">
+            <form [formGroup]="gameForm">
+                <div class="input-group">
+                    <span class="input-group-text">Set Size Board</span>
+                    <input formControlName="size" type="number" aria-label="First name" class="form-control">
+
+                    <span class="input-group-text">Set Arrows</span>
+                    <input formControlName="size" type="number" aria-label="First name" class="form-control">
+                    <span class="input-group-text">Set MaxPits</span>
+                    <input formControlName="pits" type="number" aria-label="First name" class="form-control">
+
+                </div>
+
+
+
+                <div class="row pt-5">
+                    <div class="container">
+                        <button (click)="startGame()" type="button" class="btn btn-success" [disabled]="gameForm.invalid">Stat Game</button>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                <div class="col">
+
+
+                </div>
+                <div class="col">
+
+
+                </div>
+            </div> -->
+            </form>
+        </div>
+
+        <!-- <p>start-page works!</p> -->
+    </div>
+</div>
