@@ -36,12 +36,12 @@ export class GameEffects {
       )
     )
   );
-  // startGame$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(createBoardSuccess),
-  //     map(() => startGame())
-  //   )
-  // );
+  startGame$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(createBoardSuccess),
+      map(() => startGame())
+    )
+  );
 
   updatePlayerPosition$ = createEffect(() =>
     this.actions$.pipe(

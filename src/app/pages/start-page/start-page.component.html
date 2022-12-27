@@ -10,32 +10,32 @@
                     <input formControlName="size" type="number" aria-label="First name" class="form-control">
 
                     <span class="input-group-text">Set Arrows</span>
-                    <input formControlName="size" type="number" aria-label="First name" class="form-control">
-                    <span class="input-group-text">Set MaxPits</span>
+                    <input formControlName="arrows" type="number" aria-label="First name" class="form-control">
+                    <span class="input-group-text">Set Max Pits</span>
                     <input formControlName="pits" type="number" aria-label="First name" class="form-control">
 
                 </div>
-
-
 
                 <div class="row pt-5">
                     <div class="container">
                         <button (click)="startGame()" type="button" class="btn btn-success" [disabled]="gameForm.invalid">Stat Game</button>
                     </div>
                 </div>
-                <!-- <div class="row">
-                <div class="col">
+
+                <h2 class="text-center mt-2">Instructions</h2>
+                <!-- usa la clase "list-group" para dar formato a la lista -->
+                <ul class="list-group">
+                    <li class="list-group-item">To move use the keys "W", "A", "S", "D".</li>
+                    <li class="list-group-item">To shoot use the "SPACE" key.</li>
+                    <li class="list-group-item">To collect the gold use the "ENTER" key.</li>
+                    <li class="list-group-item">To win you must collect at least one gold and return to the starting square.</li>
+                    <li class="list-group-item">To kill the WUMPUS you must be on the square next to it and facing it.</li>
+                    <li class="list-group-item">The board is set randomly each game.</li>
+                </ul>
+                <h3 class="text-center mt-5"> created by Martin Miguel Bernal Garcia</h3>
 
 
-                </div>
-                <div class="col">
-
-
-                </div>
-            </div> -->
             </form>
         </div>
-
-        <!-- <p>start-page works!</p> -->
     </div>
 </div>

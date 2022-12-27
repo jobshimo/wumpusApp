@@ -39,7 +39,7 @@ export class StartPageComponent implements OnInit {
       size: new FormControl(4, [
         Validators.required,
         Validators.min(4),
-        Validators.max(8),
+        Validators.max(20),
       ]),
       arrows: new FormControl(4, [Validators.min(1)]),
       pits: new FormControl(2, [Validators.min(1)]),

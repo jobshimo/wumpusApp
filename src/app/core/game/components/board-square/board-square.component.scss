@@ -19,14 +19,16 @@
 }
 
 .not-player-image {
-    position: fixed;
+    // position: fixed;
+    position: absolute;
     z-index: 0;
     margin-top: -25px;
     margin-left: -25px;
 }
 
 .player-image {
-    position: fixed;
+    // position: fixed;
+    position: absolute;
     z-index: 1;
     filter: hue-rotate(291deg);
     margin-top: -25px;
@@ -40,7 +42,8 @@
 
 .breeze {
     color: white;
-    position: fixed;
+    // position: fixed;
+    position: absolute;
     z-index: 2;
     margin-top: -25px;
     margin-left: -15px;
@@ -48,7 +51,8 @@
 
 .stench {
     color: white;
-    position: fixed;
+    // position: fixed;
+    position: absolute;
     z-index: 2;
     margin-top: -15px;
     margin-left: -15px;

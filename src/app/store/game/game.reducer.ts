@@ -6,6 +6,7 @@ import {
   updateLookingToSuccess,
   updateBoard,
   updateBoardSuccess,
+  startGame,
 } from './game.actions';
 import { initialGameState, GameState } from './game.state';
 import {
@@ -24,6 +25,7 @@ export const GameStateReducer = createReducer(
     colums: cols - 1,
     arrows,
   })),
+
   on(createBoardSuccess, (state: GameState, { board }) => ({
     ...state,
     board,
@@ -32,7 +34,16 @@ export const GameStateReducer = createReducer(
 
   on(endGame, (state: GameState) => ({
     ...state,
-    endGame:true
+    endGame:true,
+    initGame:false
+  })),
+
+  on(startGame, (state: GameState) => ({
+    ...state,
+    playerPosition: { row:0, col:0 },
+    endGame:false,
+    gold:0,
+    initGame:true
   })),
 
   // MOVE_PLAYER

@@ -7,13 +7,15 @@ import {
   selectPlayerPosition,
   selectRows,
   selectCols,
+  selectInitGame,
 } from './store/game/game.selectors';
 import {
   updatePlayerPosition,
   updateLookingTo,
+  resetState,
 } from './store/game/game.actions';
 import { PositionModel } from './models/position.model';
-import { GameService, Board } from './services/game.service';
+import { GameService } from './services/game.service';
 import {
   selectBoard,
   selectEndGame,
@@ -28,9 +30,17 @@ import {
   updateArrows,
 } from './store/game/game.actions';
 
-import { Howl } from 'howler';
 import { Router } from '@angular/router';
-import { RESET_STATE, resetState } from './store/app/app.actions';
+import {
+  moveUp,
+  moveDown,
+  moveLeft,
+  moveRight,
+  pickGold,
+  shoot,
+} from './literals.helper';
+import { dead, drum, gameOver, gold, win } from './music.helper';
+import { Board } from './models/board-square.model';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -42,48 +52,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private store: Store<MainState>,
     private router: Router
   ) {}
-
-  drum = new Howl({
-    src: ['../assets/audio/bump.wav'],
-    html5: true,
-    loop: false,
-    volume: 0.2,
-  });
-
-  gold = new Howl({
-    src: ['../assets/audio/coin.wav'],
-    html5: true,
-    loop: false,
-    volume: 0.2,
-  });
-
-  gameOver = new Howl({
-    src: ['../assets/audio/game-over.wav'],
-    html5: true,
-    loop: false,
-    volume: 0.2,
-  });
-
-  win = new Howl({
-    src: ['../assets/audio/win.wav'],
-    html5: true,
-    loop: false,
-    volume: 0.2,
-  });
-
-  dead = new Howl({
-    src: ['../assets/audio/error.mp3'],
-    html5: true,
-    loop: false,
-    volume: 0.2,
-  });
-
-  arrow = new Howl({
-    src: ['../assets/audio/arrow.wav'],
-    html5: true,
-    loop: false,
-    volume: 0.2,
-  });
 
   playerFace$: Observable<string> = this.store.select(selectLookingTo);
   playerFaceSubs: Subscription = new Subscription();
@@ -118,6 +86,12 @@ export class AppComponent implements OnInit, OnDestroy {
   playerArrowsSubs: Subscription = new Subscription();
   playerArrows!: number;
 
+  initGame$: Observable<boolean> = this.store.select(selectInitGame);
+  initGameSubs: Subscription = new Subscription();
+  initGame!: boolean;
+
+  winner: boolean = false;
+
   ngOnInit(): void {
     this.playerFaceSubs = this.playerFace$.subscribe(
       (faceTo) => (this.playerFace = faceTo)
@@ -146,10 +120,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.playerArrowsSubs = this.playerArrows$.subscribe(
       (arrows) => (this.playerArrows = arrows)
     );
+
+    this.initGameSubs = this.initGame$.subscribe(
+      (initGame) => (this.initGame = initGame)
+    );
   }
 
   playerActions(event: KeyboardEvent) {
-    if (this.endGame) return;
+    if (this.endGame || !this.initGame) return;
     const { row, col } = this.playerPosition;
     switch (true) {
       case event.code === this.playerFace:
@@ -159,13 +137,13 @@ export class AppComponent implements OnInit, OnDestroy {
           })
         );
         break;
-      case event.code === 'Enter':
+      case event.code === pickGold:
         if (this.board[row][col].gold === true) {
           this.pickGold();
           this.store.dispatch(updateGold());
         }
         break;
-      case event.code === 'Space':
+      case event.code === shoot:
         if (
           this.playerArrows > 0 &&
           this.gameService.checkWumpusFacePlayerDirection(
@@ -193,23 +171,23 @@ export class AppComponent implements OnInit, OnDestroy {
 
   directionKey(key: string) {
     return (
-      key === 'ArrowUp' ||
-      key === 'ArrowDown' ||
-      key === 'ArrowLeft' ||
-      key === 'ArrowRight'
+      key === moveUp ||
+      key === moveDown ||
+      key === moveLeft ||
+      key === moveRight
     );
   }
 
   executeMotion(action: string): PositionModel {
     const { row, col } = this.playerPosition;
     switch (action) {
-      case 'ArrowUp':
+      case moveUp:
         return { row: row > 0 ? row - 1 : row, col };
-      case 'ArrowDown':
+      case moveDown:
         return { row: row < this.maxRows ? row + 1 : row, col };
-      case 'ArrowLeft':
+      case moveLeft:
         return { row, col: col > 0 ? col - 1 : col };
-      case 'ArrowRight':
+      case moveRight:
         return { row, col: col < this.selectCols ? col + 1 : col };
       default:
         return { row, col };
@@ -218,7 +196,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   updatePosition() {
     const { row, col } = this.playerPosition;
-    this.board[row][col].wall === true ? this.drum.play() : null;
+    this.board[row][col].wall === true ? drum.play() : null;
     let newBoard = copy(this.board);
     newBoard[row][col].wall = false;
     this.store.dispatch(updateBoard({ board: newBoard }));
@@ -227,7 +205,8 @@ export class AppComponent implements OnInit, OnDestroy {
   checkWin() {
     const { row, col } = this.playerPosition;
     if (this.playerGold > 0 && row === 0 && col === 0) {
-      this.win.play();
+      win.play();
+      this.winner = true;
       let newBoard = copy(this.board);
       newBoard[row][col].wall = false;
       this.store.dispatch(endGame());
@@ -236,7 +215,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   pickGold() {
     const { row, col } = this.playerPosition;
-    this.board[row][col].gold === true ? this.gold.play() : null;
+    this.board[row][col].gold === true ? gold.play() : null;
     let newBoard = copy(this.board);
     newBoard[row][col].gold = false;
     this.store.dispatch(updateBoard({ board: newBoard }));
@@ -244,7 +223,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   killWumpus(position: PositionModel) {
     const { row, col } = position;
-    this.board[row][col].wumpus === true ? this.dead.play() : null;
+    this.board[row][col].wumpus === true ? dead.play() : null;
     let newBoard = copy(this.board);
     newBoard[row][col].wumpus = false;
     newBoard[row][col].stiff = true;
@@ -258,11 +237,16 @@ export class AppComponent implements OnInit, OnDestroy {
       this.board[row][col].wumpus === true ||
       this.board[row][col].pit === true
     ) {
-      this.gameOver.play();
+      gameOver.play();
       let newBoard = copy(this.board);
       newBoard[row][col].wall = false;
       this.store.dispatch(endGame());
     }
+  }
+
+  backToConfiguration() {
+    this.store.dispatch(resetState());
+    this.router.navigate(['/start']);
   }
 
   ngOnDestroy(): void {
@@ -274,5 +258,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.endGameSubs?.unsubscribe();
     this.playerGoldSubs?.unsubscribe();
     this.playerArrowsSubs?.unsubscribe();
+    this.initGameSubs?.unsubscribe();
   }
 }

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Board, GameService } from './game.service';
-import { BoardSquareModel } from '../models/board-square.model';
+import { GameService } from './game.service';
+import { Board, BoardSquareModel } from '../models/board-square.model';
 import { boardMock, expectedBoardMock } from './services.mock';
 
 describe('GameService', () => {
@@ -94,11 +94,11 @@ describe('GameService Max Board Elements ', () => {
 
   it('should return the correct object for a board size of 8', () => {
     const size = 8;
-    expect(service.setMaxElements(size)).toEqual({ maxWumpus: 4, maxPit: 5, maxGold: 3 });
+    expect(service.setMaxElements(size)).toEqual({ maxWumpus: 5, maxPit: 5, maxGold: 3 });
   });
 
   it('should return the correct object for a board size of 9', () => {
     const size = 9;
-    expect(service.setMaxElements(size)).toEqual({ maxWumpus: 5, maxPit: 5, maxGold: 3 });
+    expect(service.setMaxElements(size)).toEqual({ maxWumpus: 6, maxPit: 5, maxGold: 4 });
   });
 });

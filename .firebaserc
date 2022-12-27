@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "wumpusapp-7204d": {
+      "hosting": {
+        "vincle": [
+          "wumpusapp-7204d"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "wumpusapp-7204d"
+  }
+}

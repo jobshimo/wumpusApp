@@ -1,5 +1,7 @@
-import { Board } from '../../services/game.service';
+
 import { PositionModel } from '../../models/position.model';
+import { moveDown } from '../../literals.helper';
+import { Board } from '../../models/board-square.model';
 
 export interface GameState {
   board: Board;
@@ -9,24 +11,20 @@ export interface GameState {
   colums:number;
   arrows: number;
   gold: number;
-  heads: number;
-  exploredCells: number;
-  points: number;
   moving:boolean
   endGame:boolean
+  initGame:boolean
 }
 
 export const initialGameState: GameState = {
   board: [],
   playerPosition: { row: 0, col: 0 },
-  lookingTo: 'ArrowDown',
+  lookingTo: moveDown,
   rows:0,
   colums:0,
   arrows: 0,
   gold: 0,
-  heads: 0,
-  exploredCells: 0,
-  points: 0,
   moving:false,
-  endGame:false
+  endGame:false,
+  initGame:false
 };

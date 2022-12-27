@@ -1,23 +1,7 @@
-<div class="w-100 h-100 flex-c-j-c">
+<div style="min-height: 100%; min-width: 100%" class=" flex-c-j-c">
     <div class="center-custom">
         <h2>Gold: {{playerGold$ | async}}</h2>
         <h2 class="ms-4">Arrows: {{ playerArrows$ | async}}</h2>
     </div>
-
     <app-board-line *ngFor="let line of board; let i = index" [line-square]="line" [position]="(playerPosition$ | async)" [lookingTo]="(playerFace$ |async)" [lineIndex]="i"></app-board-line>
-
-    <!-- <div style="display: flex; flex-direction: row">
-        <app-board-square></app-board-square>
-        <app-board-square></app-board-square>
-        <app-board-square></app-board-square>
-        <app-board-square></app-board-square>
-        <app-board-square></app-board-square>
-    </div>
-    <div style="display: flex; flex-direction: row">
-        <app-board-square></app-board-square>
-        <app-board-square></app-board-square>
-        <app-board-square></app-board-square>
-        <app-board-square></app-board-square>
-        <app-board-square></app-board-square>
-    </div> -->
 </div>

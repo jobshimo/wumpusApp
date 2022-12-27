@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Board } from '../../services/game.service';
+import { Board } from '../../models/board-square.model';
 
 export enum GameStatesTypes {
   CREATE_BOARD = '[Game State] Create Board',
@@ -18,6 +18,8 @@ export enum GameStatesTypes {
   START_GAME = '[Game State] Start Game',
 }
 
+export const RESET_STATE = '[App State] Reset State';
+export const resetState = createAction(RESET_STATE);
 
 export const endGame = createAction(GameStatesTypes.END_GAME);
 

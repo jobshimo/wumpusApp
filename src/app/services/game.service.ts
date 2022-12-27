@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BoardSquareModel, BoardSquare } from '../models/board-square.model';
+import { moveUp, moveDown, moveLeft, moveRight } from '../literals.helper';
+import {
+  BoardSquareModel,
+  BoardSquare,
+  Board,
+} from '../models/board-square.model';
 import { PositionModel } from '../models/position.model';
-
-export type Board = BoardSquareModel[][];
 
 type percepts = 'stench' | 'breeze' | 'scream';
 
@@ -12,7 +15,7 @@ type percepts = 'stench' | 'breeze' | 'scream';
 export class GameService {
   constructor() {}
 
-  generateBoard(rows: number, cols: number, pits:number): Board {
+  generateBoard(rows: number, cols: number, pits: number): Board {
     const board: Board = [];
     const { maxWumpus, maxPit, maxGold } = this.setMaxElements(rows);
     let pit = 0,
@@ -29,7 +32,8 @@ export class GameService {
           gold,
           maxWumpus,
           pits,
-          maxGold
+          maxGold,
+          rows
         );
         switch (true) {
           case cell.pit:
@@ -46,6 +50,7 @@ export class GameService {
       }
       board.push(row);
     }
+
     return this.setBoardValues(board);
   }
 
@@ -88,15 +93,15 @@ export class GameService {
     direction: string
   ): boolean {
     switch (direction) {
-      case 'ArrowUp':
+      case moveUp:
         return rowIndex > 0 ? board[rowIndex - 1][colIndex].wumpus : false;
-      case 'ArrowDown':
+      case moveDown:
         return rowIndex < board.length - 1
           ? board[rowIndex + 1][colIndex].wumpus
           : false;
-      case 'ArrowLeft':
+      case moveLeft:
         return colIndex > 0 ? board[rowIndex][colIndex - 1].wumpus : false;
-      case 'ArrowRight':
+      case moveRight:
         return colIndex < board[rowIndex].length - 1
           ? board[rowIndex][colIndex + 1].wumpus
           : false;
@@ -105,15 +110,19 @@ export class GameService {
     }
   }
 
-  wumpusToKillPosition(direction: string, rowIndex: number, colIndex: number):PositionModel {
+  wumpusToKillPosition(
+    direction: string,
+    rowIndex: number,
+    colIndex: number
+  ): PositionModel {
     switch (direction) {
-      case 'ArrowUp':
+      case moveUp:
         return { row: rowIndex - 1, col: colIndex };
-      case 'ArrowDown':
+      case moveDown:
         return { row: rowIndex + 1, col: colIndex };
-      case 'ArrowLeft':
+      case moveLeft:
         return { row: rowIndex, col: colIndex - 1 };
-      case 'ArrowRight':
+      case moveRight:
         return { row: rowIndex, col: colIndex + 1 };
       default:
         return { row: rowIndex, col: colIndex };
@@ -131,16 +140,9 @@ export class GameService {
   }
 
   setGold(board: Board): void {
-    let square: BoardSquareModel | undefined;
-    square = board[0].find(
-      (s) => !s.pit && !s.wumpus && !(s.position == 0) && !(s.line == 0)
-    );
-    if (!square)
-      square = board
-        .flat()
-        .find(
-          (s) => !s.pit && !s.wumpus && !(s.position == 0) && !(s.line == 0)
-        );
+    let square: BoardSquareModel | undefined = board
+      .flat()
+      .find((s) => !s.pit && !s.wumpus && !(s.position == 0) && !(s.line == 0));
     if (square) square.gold = true;
   }
 
@@ -157,27 +159,11 @@ export class GameService {
       case 7:
         return { maxWumpus: 4, maxPit: 4, maxGold: 3 };
       case 8:
-        return { maxWumpus: 4, maxPit: 5, maxGold: 3 };
-      case 9:
         return { maxWumpus: 5, maxPit: 5, maxGold: 3 };
+      case 9:
+        return { maxWumpus: 6, maxPit: 5, maxGold: 4 };
       default:
         return { maxWumpus: 2, maxPit: 3, maxGold: 2 };
     }
-  }
-
-  get game(): string | null {
-    return localStorage.getItem('lastGame');
-  }
-
-  checkLastGame(): boolean {
-    return this.game ? true : false;
-  }
-
-  setGameToLocalStorage(game: string): void {
-    localStorage.setItem('lastGame', game);
-  }
-
-  deleteGameFromLocalStorage(): void {
-    localStorage.removeItem('lastGame');
   }
 }

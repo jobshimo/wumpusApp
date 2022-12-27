@@ -5,6 +5,8 @@ import { Observable, Subscription } from 'rxjs';
 import { MainState } from '../../../../main.reducer';
 import { Store } from '@ngrx/store';
 import { selectMoving, selectEndGame } from '../../../../store/game/game.selectors';
+import { moveUp } from 'src/app/literals.helper';
+import { moveDown, moveLeft, moveRight } from '../../../../literals.helper';
 
 @Component({
   selector: 'app-board-square',
@@ -48,13 +50,13 @@ export class BoardSquareComponent implements OnInit, OnDestroy {
 
   get selectPlayerImage(): string | null {
     switch (this.lookingTo) {
-      case 'ArrowUp':
+      case moveUp:
         return this.payerImgUlrBase + 'player_facing_to_up.png';
-      case 'ArrowDown':
+      case moveDown:
         return this.payerImgUlrBase + 'player_facing_to_down.png';
-      case 'ArrowLeft':
+      case moveLeft:
         return this.payerImgUlrBase + 'player_facing_to_left.png';
-      case 'ArrowRight':
+      case moveRight:
         return this.payerImgUlrBase + 'player_facing_to_right.png';
       default:
         return null;
@@ -64,13 +66,13 @@ export class BoardSquareComponent implements OnInit, OnDestroy {
   get selecMotionEfect():string | null {
     if (!this.moving) return null;
     switch (this.lookingTo) {
-      case 'ArrowUp':
+      case moveUp:
         return 'animate__fadeInUp';
-      case 'ArrowDown':
+      case moveDown:
         return 'animate__fadeInDown';
-      case 'ArrowLeft':
+      case moveLeft:
         return 'animate__fadeInRight';
-      case 'ArrowRight':
+      case moveRight:
         return 'animate__fadeInLeft';
       default:
         return null;

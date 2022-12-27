@@ -1,4 +1,5 @@
-import { Board } from './game.service';
+import { Board } from "../models/board-square.model";
+
 export const boardMock: Board = [
   [
       {

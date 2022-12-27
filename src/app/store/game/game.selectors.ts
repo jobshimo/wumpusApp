@@ -42,7 +42,13 @@ export const selectMoving = createSelector(
   selectGameState,
     (state: GameState) => state.moving
 );
+
 export const selectEndGame = createSelector(
   selectGameState,
     (state: GameState) => state.endGame
+);
+
+export const selectInitGame = createSelector(
+  selectGameState,
+    (state: GameState) => state.initGame
 );
