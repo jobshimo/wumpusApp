@@ -11,11 +11,13 @@ import { MAIN_REDUCER } from './main.reducer';
 import { StartPageComponent } from './pages/start-page/start-page.component';
 import { GameEffects } from './store/game/game.effects';
 import { clearStateMetaReducer } from './store/meta-reducer';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StartPageComponent
+    StartPageComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
